@@ -1,4 +1,10 @@
-A qucik start example from:-
+## To run
+
+- ```npm i```
+- ```npm start ```
+- visit ```http://localhost:3000/``` on the browser
+
+## Sources
 
 (1) Express [official example](https://expressjs.com/en/guide/database-integration.html#sqlite)
 
