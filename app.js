@@ -1,19 +1,27 @@
-const sqlite3 = require('sqlite3').verbose()
-const db = new sqlite3.Database(':memory:')
+var express = require('express');
+var app = express();
+var fs = require('fs');
+const sqlite3 = require('sqlite3');
+const sqlite = require('sqlite');
+app.use(express.static('public'))
 
-db.serialize(() => {
-  db.run('CREATE TABLE lorem (info TEXT)')
-  const stmt = db.prepare('INSERT INTO lorem VALUES (?)')
 
-  for (let i = 0; i < 10; i++) {
-    stmt.run(`Ipsum ${i}`)
-  }
+async function getDBConnection(){
+    const db = await sqlite.open({
+        filename: "author.db",
+        driver: sqlite3.Database
+    });
+    return db;
+}
 
-  stmt.finalize()
-
-  db.each('SELECT rowid AS id, info FROM lorem', (err, row) => {
-    console.log(`${row.id}: ${row.info}`)
-  })
+app.get('/', async function(req, res){
+    let db = await getDBConnection();
+    let authors = await db.all("SELECT * from author");
+    await db.close();
+    return res.json(authors)
 })
 
-db.close()
+var port = 3000;
+app.listen(port, function(){
+    console.log('server on! http://localhost:' + port);
+});
