@@ -42,3 +42,7 @@ SELECT * FROM author;
 ```sql
 .quit
 ```
+
+## Additional resource
+
+- [Saving Data in JavaScript Without a Database (Jun 2019)](https://healeycodes.com/saving-data-in-javascript-without-a-database)
